@@ -1,2 +1,2 @@
-# bbva-backend
+# BBVA-backend
 Repo backend - Hackaton BBVA
