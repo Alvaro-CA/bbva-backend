@@ -18,13 +18,11 @@ namespace bbva_backend.Models
 
         public virtual DbSet<Agencium> Agencia { get; set; } = null!;
         public virtual DbSet<Cliente> Clientes { get; set; } = null!;
-        public virtual DbSet<Colaborador> Colaboradors { get; set; } = null!;
         public virtual DbSet<Region> Regions { get; set; } = null!;
         public virtual DbSet<Segmento> Segmentos { get; set; } = null!;
         public virtual DbSet<SegmentoAgencium> SegmentoAgencia { get; set; } = null!;
         public virtual DbSet<SegmentoCliente> SegmentoClientes { get; set; } = null!;
         public virtual DbSet<Ticket> Tickets { get; set; } = null!;
-        public virtual DbSet<Ubigeo> Ubigeos { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -95,6 +93,12 @@ namespace bbva_backend.Models
                     .HasMaxLength(500)
                     .IsUnicode(false)
                     .HasColumnName("provincia");
+
+                entity.HasOne(d => d.IdRegionNavigation)
+                    .WithMany(p => p.Agencia)
+                    .HasForeignKey(d => d.IdRegion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Agencia__idRegio__778AC167");
             });
 
             modelBuilder.Entity<Cliente>(entity =>
@@ -129,21 +133,6 @@ namespace bbva_backend.Models
                     .HasMaxLength(9)
                     .IsUnicode(false)
                     .HasColumnName("numeroDocumento");
-            });
-
-            modelBuilder.Entity<Colaborador>(entity =>
-            {
-                entity.HasKey(e => e.IdColaborador)
-                    .HasName("PK__Colabora__A6A5C3967E1E6C7F");
-
-                entity.ToTable("Colaborador");
-
-                entity.Property(e => e.IdColaborador).HasColumnName("idColaborador");
-
-                entity.Property(e => e.NombreColaborador)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("nombreColaborador");
             });
 
             modelBuilder.Entity<Region>(entity =>
@@ -196,6 +185,16 @@ namespace bbva_backend.Models
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
 
                 entity.Property(e => e.IdSegmento).HasColumnName("idSegmento");
+
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdCliente)
+                    .HasConstraintName("FK__SegmentoC__idCli__74AE54BC");
+
+                entity.HasOne(d => d.IdSegmentoNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdSegmento)
+                    .HasConstraintName("FK__SegmentoC__idSeg__73BA3083");
             });
 
             modelBuilder.Entity<Ticket>(entity =>
@@ -230,40 +229,16 @@ namespace bbva_backend.Models
                 entity.Property(e => e.IdAgencia).HasColumnName("idAgencia");
 
                 entity.Property(e => e.IdCliente).HasColumnName("idCliente");
-            });
 
-            modelBuilder.Entity<Ubigeo>(entity =>
-            {
-                entity.HasKey(e => e.IdUbigeo)
-                    .HasName("PK__Ubigeo__79399D5C99E243F2");
+                entity.HasOne(d => d.IdAgenciaNavigation)
+                    .WithMany(p => p.Tickets)
+                    .HasForeignKey(d => d.IdAgencia)
+                    .HasConstraintName("FK__Ticket__idAgenci__70DDC3D8");
 
-                entity.ToTable("Ubigeo");
-
-                entity.Property(e => e.IdUbigeo).HasColumnName("idUbigeo");
-
-                entity.Property(e => e.CodigoUbigeo)
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("codigoUbigeo")
-                    .IsFixedLength();
-
-                entity.Property(e => e.IdDepartamento)
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .HasColumnName("idDepartamento")
-                    .IsFixedLength();
-
-                entity.Property(e => e.IdDistrito)
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .HasColumnName("idDistrito")
-                    .IsFixedLength();
-
-                entity.Property(e => e.IdProvincia)
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .HasColumnName("idProvincia")
-                    .IsFixedLength();
+                entity.HasOne(d => d.IdClienteNavigation)
+                    .WithMany(p => p.Tickets)
+                    .HasForeignKey(d => d.IdCliente)
+                    .HasConstraintName("FK__Ticket__idClient__72C60C4A");
             });
 
             OnModelCreatingPartial(modelBuilder);

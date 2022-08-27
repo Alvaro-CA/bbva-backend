@@ -13,9 +13,22 @@ namespace bbva_backend.Controllers
     {
         [HttpGet]
         public IActionResult Get()
-        {   
-            starWebDbContext dbContext=new starWebDbContext();
-            return Ok();
+        {
+            starWebDbContext dbContext = new starWebDbContext();
+
+
+            var a = dbContext.Agencia.Select((agencia) => new AgenciaData(
+                agencia.NombreAgencia,
+                agencia.Direccion,
+                agencia.Aforo,
+                agencia.CapacidadActual,
+                agencia.Altitud,
+                agencia.Latitud,
+                agencia.HorarioCierreAtencion));
+
+            return Ok(a);
+
+
         }
     }
 }
