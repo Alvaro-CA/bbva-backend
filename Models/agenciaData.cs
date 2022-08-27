@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
 
-namespace bbva_backend.Models
-{
     public partial class Agencium
     {
         public int IdAgencia { get; set; }
@@ -16,8 +12,4 @@ namespace bbva_backend.Models
         public decimal? Latitud { get; set; }
         public int IdRegion { get; set; }
         public int IdUbigeo { get; set; }
-        public string HorarioInicioAtencion { get; set; } = null!;
-        public string HorarioCierreAtencion { get; set; } = null!;
-        public int IdSegmento { get; set; }
     }
-}

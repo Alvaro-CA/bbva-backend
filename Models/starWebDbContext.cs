@@ -17,9 +17,12 @@ namespace bbva_backend.Models
         }
 
         public virtual DbSet<Agencium> Agencia { get; set; } = null!;
+        public virtual DbSet<Cliente> Clientes { get; set; } = null!;
         public virtual DbSet<Colaborador> Colaboradors { get; set; } = null!;
         public virtual DbSet<Region> Regions { get; set; } = null!;
         public virtual DbSet<Segmento> Segmentos { get; set; } = null!;
+        public virtual DbSet<SegmentoAgencium> SegmentoAgencia { get; set; } = null!;
+        public virtual DbSet<SegmentoCliente> SegmentoClientes { get; set; } = null!;
         public virtual DbSet<Ticket> Tickets { get; set; } = null!;
         public virtual DbSet<Ubigeo> Ubigeos { get; set; } = null!;
 
@@ -37,7 +40,7 @@ namespace bbva_backend.Models
             modelBuilder.Entity<Agencium>(entity =>
             {
                 entity.HasKey(e => e.IdAgencia)
-                    .HasName("PK__Agencia__2F174292E6C5EC13");
+                    .HasName("PK__Agencia__2F17429240C749C2");
 
                 entity.Property(e => e.IdAgencia).HasColumnName("idAgencia");
 
@@ -63,7 +66,19 @@ namespace bbva_backend.Models
                     .IsUnicode(false)
                     .HasColumnName("distrito");
 
+                entity.Property(e => e.HorarioCierreAtencion)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("horarioCierreAtencion");
+
+                entity.Property(e => e.HorarioInicioAtencion)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("horarioInicioAtencion");
+
                 entity.Property(e => e.IdRegion).HasColumnName("idRegion");
+
+                entity.Property(e => e.IdSegmento).HasColumnName("idSegmento");
 
                 entity.Property(e => e.IdUbigeo).HasColumnName("idUbigeo");
 
@@ -80,6 +95,40 @@ namespace bbva_backend.Models
                     .HasMaxLength(500)
                     .IsUnicode(false)
                     .HasColumnName("provincia");
+            });
+
+            modelBuilder.Entity<Cliente>(entity =>
+            {
+                entity.HasKey(e => e.IdCliente)
+                    .HasName("PK__Cliente__885457EE4DD9F8F4");
+
+                entity.ToTable("Cliente");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.Contrasena)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("contrasena");
+
+                entity.Property(e => e.Direccion)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("direccion");
+
+                entity.Property(e => e.FlgEsCliente).HasColumnName("flgEsCliente");
+
+                entity.Property(e => e.IdSegmento).HasColumnName("idSegmento");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.NumeroDocumento)
+                    .HasMaxLength(9)
+                    .IsUnicode(false)
+                    .HasColumnName("numeroDocumento");
             });
 
             modelBuilder.Entity<Colaborador>(entity =>
@@ -114,12 +163,14 @@ namespace bbva_backend.Models
 
             modelBuilder.Entity<Segmento>(entity =>
             {
-                entity.HasKey(e => e.Segmento1)
-                    .HasName("PK__Segmento__C6DE5B48B85B7790");
+                entity.HasKey(e => e.IdSegmento)
+                    .HasName("PK__Segmento__8942DA4DFF8F0139");
 
                 entity.ToTable("Segmento");
 
-                entity.Property(e => e.Segmento1).HasColumnName("Segmento");
+                entity.Property(e => e.IdSegmento).HasColumnName("idSegmento");
+
+                entity.Property(e => e.Jerarquia).HasColumnName("jerarquia");
 
                 entity.Property(e => e.NombreSegmento)
                     .HasMaxLength(100)
@@ -127,37 +178,53 @@ namespace bbva_backend.Models
                     .HasColumnName("nombreSegmento");
             });
 
+            modelBuilder.Entity<SegmentoAgencium>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.IdAgencia).HasColumnName("idAgencia");
+
+                entity.Property(e => e.IdSegmento).HasColumnName("idSegmento");
+            });
+
+            modelBuilder.Entity<SegmentoCliente>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("SegmentoCliente");
+
+                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
+
+                entity.Property(e => e.IdSegmento).HasColumnName("idSegmento");
+            });
+
             modelBuilder.Entity<Ticket>(entity =>
             {
                 entity.HasKey(e => e.IdTicket)
-                    .HasName("PK__Ticket__22B1456F11A06614");
+                    .HasName("PK__Ticket__22B1456F12FB081F");
 
                 entity.ToTable("Ticket");
 
                 entity.Property(e => e.IdTicket).HasColumnName("idTicket");
 
-                entity.Property(e => e.AtendidoPor).HasColumnName("atendidoPor");
+                entity.Property(e => e.AtendidoPor)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("atendidoPor");
 
                 entity.Property(e => e.Estado)
                     .HasMaxLength(1)
                     .IsUnicode(false)
-                    .HasColumnName("estado")
-                    .IsFixedLength();
-
-                entity.Property(e => e.FechaHoraActualizacion)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fechaHoraActualizacion");
-
-                entity.Property(e => e.FechaHoraCreacion)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fechaHoraCreacion");
+                    .HasColumnName("estado");
 
                 entity.Property(e => e.FechaHoraIngreso)
-                    .HasColumnType("datetime")
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
                     .HasColumnName("fechaHoraIngreso");
 
                 entity.Property(e => e.FechaHoraSalida)
-                    .HasColumnType("datetime")
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
                     .HasColumnName("fechaHoraSalida");
 
                 entity.Property(e => e.IdAgencia).HasColumnName("idAgencia");

@@ -5,7 +5,8 @@ namespace bbva_backend.Models
 {
     public partial class Segmento
     {
-        public int Segmento1 { get; set; }
+        public int IdSegmento { get; set; }
         public string? NombreSegmento { get; set; }
+        public int? Jerarquia { get; set; }
     }
 }
