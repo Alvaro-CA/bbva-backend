@@ -76,7 +76,7 @@ namespace bbva_backend.Controllers
         public IActionResult ObtenerTicketsAtendiendose(int idAgencia)
         {
             string fechaHoy = DateTime.Now.ToString("dd/MM/yyyy");
-            var objTickets = db.Tickets.Where(x => x.IdAgencia == idAgencia && x.Estado=="A"&& x.FechaHoraIngreso.Substring(0,10)==fechaHoy ).ToList() ;
+            var objTickets = db.Tickets.Where(x => x.IdAgencia == idAgencia && x.Estado=="A"&& x.FechaHoraIngreso.Substring(0,10)==fechaHoy ).Select(x=>x.IdTicket).ToList() ;
 
 
             return Ok(objTickets);
@@ -87,7 +87,7 @@ namespace bbva_backend.Controllers
         public IActionResult ObtenerTicketsCreadosSinAtender(int idAgencia)
         {
             string fechaHoy = DateTime.Now.ToString("dd/MM/yyyy");
-            var objTickets = db.Tickets.Where(x => x.IdAgencia == idAgencia && x.Estado == "C" && x.FechaHoraIngreso.Substring(0, 10) == fechaHoy).ToList();
+            var objTickets = db.Tickets.Where(x => x.IdAgencia == idAgencia && x.Estado == "C" && x.FechaHoraIngreso.Substring(0, 10) == fechaHoy).Select(x=>x.IdTicket).ToList();
 
 
             return Ok(objTickets);
