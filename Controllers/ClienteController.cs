@@ -26,7 +26,7 @@ namespace bbva_backend.Controllers
                 Segmento segmento = db.Segmentos.Where(x => x.IdSegmento == cliente.IdSegmento).FirstOrDefault();
                 if (segmento != null)
                 {
-                    return Ok(new LogeoClienteResponse()
+                    return Ok(new LogeoClientesResponse()
                     {
                         nombreClient = cliente.Nombre,
                         idSegmento = segmento.IdSegmento,
