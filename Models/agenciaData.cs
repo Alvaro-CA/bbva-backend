@@ -8,7 +8,7 @@ public class AgenciaData
     public decimal? Altitud { get; set; }
     public decimal? Latitud { get; set; }
 
-    public string? horarioAtencion{get;set;}
+    public string horarioAtencion {get;set;}
 
     public AgenciaData(string nombreAgencia, string direccion, decimal aforo, decimal capacidadActual, decimal altitud, decimal latitud,string horarioAtencion)
     {

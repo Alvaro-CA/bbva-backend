@@ -16,19 +16,16 @@ namespace bbva_backend.Controllers
         {
             starWebDbContext dbContext = new starWebDbContext();
 
-
-            var a = dbContext.Agencia.Select((agencia) => new AgenciaData(
+            return Ok(dbContext.Agencia.Select((agencia) => new
+            {
                 agencia.NombreAgencia,
                 agencia.Direccion,
                 agencia.Aforo,
                 agencia.CapacidadActual,
                 agencia.Altitud,
                 agencia.Latitud,
-                agencia.HorarioCierreAtencion));
-
-            return Ok(a);
-
-
+                horarioAtencion = agencia.HorarioInicioAtencion + " - " + agencia.HorarioCierreAtencion
+            }));
         }
     }
 }

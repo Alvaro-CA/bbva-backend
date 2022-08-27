@@ -7,5 +7,8 @@ namespace bbva_backend.Models
     {
         public int? IdAgencia { get; set; }
         public int? IdSegmento { get; set; }
+
+        public virtual Agencium? IdAgenciaNavigation { get; set; }
+        public virtual Segmento? IdSegmentoNavigation { get; set; }
     }
 }

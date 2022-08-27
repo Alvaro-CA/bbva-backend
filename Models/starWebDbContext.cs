@@ -174,6 +174,16 @@ namespace bbva_backend.Models
                 entity.Property(e => e.IdAgencia).HasColumnName("idAgencia");
 
                 entity.Property(e => e.IdSegmento).HasColumnName("idSegmento");
+
+                entity.HasOne(d => d.IdAgenciaNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdAgencia)
+                    .HasConstraintName("FK__SegmentoA__idAge__787EE5A0");
+
+                entity.HasOne(d => d.IdSegmentoNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdSegmento)
+                    .HasConstraintName("FK__SegmentoA__idSeg__797309D9");
             });
 
             modelBuilder.Entity<SegmentoCliente>(entity =>
@@ -189,12 +199,12 @@ namespace bbva_backend.Models
                 entity.HasOne(d => d.IdClienteNavigation)
                     .WithMany()
                     .HasForeignKey(d => d.IdCliente)
-                    .HasConstraintName("FK__SegmentoC__idCli__74AE54BC");
+                    .HasConstraintName("FK__SegmentoC__idCli__7A672E12");
 
                 entity.HasOne(d => d.IdSegmentoNavigation)
                     .WithMany()
                     .HasForeignKey(d => d.IdSegmento)
-                    .HasConstraintName("FK__SegmentoC__idSeg__73BA3083");
+                    .HasConstraintName("FK__SegmentoC__idSeg__7B5B524B");
             });
 
             modelBuilder.Entity<Ticket>(entity =>
