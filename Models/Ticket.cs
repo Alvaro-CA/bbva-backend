@@ -7,12 +7,10 @@ namespace bbva_backend.Models
     {
         public int IdTicket { get; set; }
         public string? Estado { get; set; }
-        public int IdAgencia { get; set; }
-        public int IdCliente { get; set; }
-        public DateTime? FechaHoraIngreso { get; set; }
-        public DateTime? FechaHoraSalida { get; set; }
-        public DateTime? FechaHoraCreacion { get; set; }
-        public DateTime? FechaHoraActualizacion { get; set; }
-        public int AtendidoPor { get; set; }
+        public int? IdAgencia { get; set; }
+        public int? IdCliente { get; set; }
+        public string? FechaHoraIngreso { get; set; }
+        public string? FechaHoraSalida { get; set; }
+        public string? AtendidoPor { get; set; }
     }
 }
