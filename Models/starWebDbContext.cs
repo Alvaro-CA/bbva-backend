@@ -17,9 +17,9 @@ namespace bbva_backend.Models
         }
 
         public virtual DbSet<Agencium> Agencia { get; set; } = null!;
-        public virtual DbSet<Cliente> Clientes { get; set; } = null!;
         public virtual DbSet<Colaborador> Colaboradors { get; set; } = null!;
         public virtual DbSet<Region> Regions { get; set; } = null!;
+        public virtual DbSet<Segmento> Segmentos { get; set; } = null!;
         public virtual DbSet<Ticket> Tickets { get; set; } = null!;
         public virtual DbSet<Ubigeo> Ubigeos { get; set; } = null!;
 
@@ -37,17 +37,21 @@ namespace bbva_backend.Models
             modelBuilder.Entity<Agencium>(entity =>
             {
                 entity.HasKey(e => e.IdAgencia)
-                    .HasName("PK__Agencia__2F174292808BB1E2");
+                    .HasName("PK__Agencia__2F174292E6C5EC13");
 
                 entity.Property(e => e.IdAgencia).HasColumnName("idAgencia");
 
-                entity.Property(e => e.Aforo).HasColumnName("aforo");
+                entity.Property(e => e.Aforo)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("aforo");
 
                 entity.Property(e => e.Altitud)
                     .HasColumnType("decimal(18, 0)")
                     .HasColumnName("altitud");
 
-                entity.Property(e => e.CapacidadActual).HasColumnName("capacidadActual");
+                entity.Property(e => e.CapacidadActual)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("capacidadActual");
 
                 entity.Property(e => e.Direccion)
                     .HasMaxLength(500)
@@ -55,7 +59,7 @@ namespace bbva_backend.Models
                     .HasColumnName("direccion");
 
                 entity.Property(e => e.Distrito)
-                    .HasMaxLength(300)
+                    .HasMaxLength(500)
                     .IsUnicode(false)
                     .HasColumnName("distrito");
 
@@ -73,38 +77,9 @@ namespace bbva_backend.Models
                     .HasColumnName("nombreAgencia");
 
                 entity.Property(e => e.Provincia)
-                    .HasMaxLength(300)
+                    .HasMaxLength(500)
                     .IsUnicode(false)
                     .HasColumnName("provincia");
-            });
-
-            modelBuilder.Entity<Cliente>(entity =>
-            {
-                entity.HasKey(e => e.IdCliente)
-                    .HasName("PK__Cliente__885457EE2F9FE41E");
-
-                entity.ToTable("Cliente");
-
-                entity.Property(e => e.IdCliente).HasColumnName("idCliente");
-
-                entity.Property(e => e.Direccion)
-                    .HasMaxLength(200)
-                    .IsUnicode(false)
-                    .HasColumnName("direccion");
-
-                entity.Property(e => e.FlgEsCliente).HasColumnName("flgEsCliente");
-
-                entity.Property(e => e.IdUbigeo).HasColumnName("idUbigeo");
-
-                entity.Property(e => e.Nombre)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre");
-
-                entity.Property(e => e.NumeroDocumento)
-                    .HasMaxLength(9)
-                    .IsUnicode(false)
-                    .HasColumnName("numeroDocumento");
             });
 
             modelBuilder.Entity<Colaborador>(entity =>
@@ -135,6 +110,21 @@ namespace bbva_backend.Models
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("nombreRegion");
+            });
+
+            modelBuilder.Entity<Segmento>(entity =>
+            {
+                entity.HasKey(e => e.Segmento1)
+                    .HasName("PK__Segmento__C6DE5B48B85B7790");
+
+                entity.ToTable("Segmento");
+
+                entity.Property(e => e.Segmento1).HasColumnName("Segmento");
+
+                entity.Property(e => e.NombreSegmento)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("nombreSegmento");
             });
 
             modelBuilder.Entity<Ticket>(entity =>
