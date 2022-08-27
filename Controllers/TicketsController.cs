@@ -63,6 +63,7 @@ namespace bbva_backend.Controllers
             if (objTicket != null)
             {
                 objTicket.Estado = "T";
+                objTicket.FechaHoraSalida = DateTime.Now.ToString();
                 db.SaveChanges();
             }
             string mensaje = "";
@@ -80,6 +81,7 @@ namespace bbva_backend.Controllers
 
             return Ok(objTickets);
         }
+
         [HttpGet]
         [Route("ObtenerTicketsCreadosSinAtender")]
         public IActionResult ObtenerTicketsCreadosSinAtender(int idAgencia)
@@ -91,8 +93,28 @@ namespace bbva_backend.Controllers
             return Ok(objTickets);
         }
 
+        [HttpGet]
+        [Route("ListarTicketsHoy")]
+        public IActionResult ListarTicketsHoy()
+        {
+            string fechaHoy = DateTime.Now.ToString("dd/MM/yyyy");
+            var objTickets = db.Tickets.Where(x =>  x.FechaHoraIngreso.Substring(0, 10) == fechaHoy).ToList();
+
+
+            return Ok(objTickets);
+        }
+
+        [HttpGet]
+        [Route("ListarTickets")]
+        public IActionResult ListarTickets()
+        {
+            var objTickets = db.Tickets.ToList();
+
+            return Ok(objTickets);
+        }
+
 
     }
 
-    
+
 }
