@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "lMNf5hOzIunyiDBFpEdFHJyaYyNokJCh6M1tLrZ1ysw=",
+  "Source": "bbva-backend",
+  "BasePath": "_content/bbva-backend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
