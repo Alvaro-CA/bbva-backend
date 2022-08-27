@@ -12,5 +12,8 @@ namespace bbva_backend.Models
         public string? FechaHoraIngreso { get; set; }
         public string? FechaHoraSalida { get; set; }
         public string? AtendidoPor { get; set; }
+
+        public virtual Agencium? IdAgenciaNavigation { get; set; }
+        public virtual Cliente? IdClienteNavigation { get; set; }
     }
 }
