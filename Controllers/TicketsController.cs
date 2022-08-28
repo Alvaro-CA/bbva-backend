@@ -22,13 +22,14 @@ namespace bbva_backend.Controllers
         {
             int idCliente = db.Clientes.Where(x => x.NumeroDocumento == dni).Select(x => x.IdCliente).FirstOrDefault();
 
+
             db.Tickets.Add(new Ticket
             {
                 IdTicket = 0,
                 Estado = "C",
                 IdAgencia = idAgencia,
                 IdCliente = idCliente == 0 ? null : idCliente,
-                FechaHoraIngreso = DateTime.Now.ToString(),
+                FechaHoraIngreso = DateTime.UtcNow.ToString(),
                 AtendidoPor = ""
 
             });
@@ -63,7 +64,7 @@ namespace bbva_backend.Controllers
             if (objTicket != null)
             {
                 objTicket.Estado = "T";
-                objTicket.FechaHoraSalida = DateTime.Now.ToString();
+                objTicket.FechaHoraSalida = DateTime.UtcNow.ToString();
                 db.SaveChanges();
             var agencia = db.Agencia.Where(x => x.IdAgencia == objTicket.IdAgencia).FirstOrDefault();
             if (agencia != null)
