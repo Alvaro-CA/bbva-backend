@@ -12,16 +12,39 @@ namespace bbva_backend.Controllers
         {
             starWebDbContext dbContext = new starWebDbContext();
 
-            return Ok(dbContext.Agencia.Select((agencia) => new
+            using (var db = new starWebDbContext())
             {
-                agencia.NombreAgencia,
-                agencia.Direccion,
-                agencia.Aforo,
-                agencia.CapacidadActual,
-                agencia.Altitud,
-                agencia.Latitud,
-                horarioAtencion = agencia.HorarioInicioAtencion + " - " + agencia.HorarioCierreAtencion
-            }));
+                var agencias = db.Agencia;
+                if (agencias != null)
+                {
+                    return Ok(dbContext.Agencia.Select((agencia) => new
+                    {
+                        agencia.NombreAgencia,
+                        agencia.Direccion,
+                        agencia.Aforo,
+                        agencia.CapacidadActual,
+                        agencia.Altitud,
+                        agencia.Latitud,
+                        color = (agencia.CapacidadActual / agencia.Aforo) * 100 <= 30 ? "v" : (agencia.CapacidadActual / agencia.Aforo) * 100 <= 60 ? "a" : "r",
+                        horarioAtencion = agencia.HorarioInicioAtencion + " - " + agencia.HorarioCierreAtencion
+                    }));
+                }
+                return BadRequest();
+            }
+
+
+
+        }
+
+        string calcularColor(decimal? capacidadActual, decimal? aforo)
+        {
+            decimal result = 0;
+            if (capacidadActual != null && aforo != null)
+            {
+                result = (decimal)((capacidadActual + aforo) * 100);
+            }
+            // if ()
+            return result.ToString();
         }
 
         [HttpGet]
