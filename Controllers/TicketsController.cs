@@ -65,9 +65,17 @@ namespace bbva_backend.Controllers
                 objTicket.Estado = "T";
                 objTicket.FechaHoraSalida = DateTime.Now.ToString();
                 db.SaveChanges();
+            var agencia = db.Agencia.Where(x => x.IdAgencia == objTicket.IdAgencia).FirstOrDefault();
+            if (agencia != null)
+            { 
+                if(agencia.CapacidadActual > 0 ){
+                  agencia.CapacidadActual = agencia.CapacidadActual-1;
+                 db.SaveChanges();
+                }
+           
+            }
             }
             string mensaje = "";
-
             return Ok(mensaje);
         }
 
@@ -88,8 +96,6 @@ namespace bbva_backend.Controllers
         {
             string fechaHoy = DateTime.Now.ToString("dd/MM/yyyy");
             var objTickets = db.Tickets.Where(x => x.IdAgencia == idAgencia && x.Estado == "C" && x.FechaHoraIngreso.Substring(0, 10) == fechaHoy).Select(x=>x.IdTicket).ToList();
-
-
             return Ok(objTickets);
         }
 

@@ -23,5 +23,19 @@ namespace bbva_backend.Controllers
                 horarioAtencion = agencia.HorarioInicioAtencion + " - " + agencia.HorarioCierreAtencion
             }));
         }
+
+        [HttpGet]
+        [Route("all")]
+        public IActionResult GetAllId()
+        {
+            starWebDbContext dbContext = new starWebDbContext();
+
+            return Ok(dbContext.Agencia.Select((agencia) => new
+            {
+                agencia.IdAgencia
+            }));
+        }
+
+       
     }
 }
