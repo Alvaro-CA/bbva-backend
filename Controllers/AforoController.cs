@@ -22,10 +22,24 @@ namespace bbva_backend.Controllers
             {
                 agencia.CapacidadActual = aforoData.aforo;
                 dbContext.SaveChanges();
+                updateAleatoryData();
                 return Ok("Actualizado Correctamente");
             }
-            return BadRequest("No Se encuentra el ID");
             
+            return BadRequest("No Se encuentra el ID");
+
+        }
+
+        void updateAleatoryData()
+        {
+            starWebDbContext dbContext = new starWebDbContext();
+
+            foreach (var agencia in dbContext.Agencia.Where((agencia) => agencia.IdAgencia < 142 || agencia.IdAgencia > 146))
+            {
+                Random rd = new Random();
+                agencia.CapacidadActual = rd.Next(0, Convert.ToInt32(agencia.Aforo));
+            }
+            dbContext.SaveChanges();
         }
     }
 }
