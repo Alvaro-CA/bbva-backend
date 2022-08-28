@@ -26,7 +26,8 @@ namespace bbva_backend.Controllers
                         agencia.Altitud,
                         agencia.Latitud,
                         color = (agencia.CapacidadActual / agencia.Aforo) * 100 <= 30 ? "v" : (agencia.CapacidadActual / agencia.Aforo) * 100 <= 60 ? "a" : "r",
-                        horarioAtencion = agencia.HorarioInicioAtencion + " - " + agencia.HorarioCierreAtencion
+                        horarioAtencion = agencia.HorarioInicioAtencion + " - " + agencia.HorarioCierreAtencion,
+                        agencia.IdUbigeo
                     }));
                 }
                 return BadRequest();
