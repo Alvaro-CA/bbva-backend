@@ -24,6 +24,8 @@ namespace bbva_backend.Models
         public string HorarioInicioAtencion { get; set; } = null!;
         public string HorarioCierreAtencion { get; set; } = null!;
         public int IdSegmento { get; set; }
+        public int? AforoCajero { get; set; }
+        public int? CapacidadCajeroActual { get; set; }
 
         public virtual Region IdRegionNavigation { get; set; } = null!;
         public virtual ICollection<Ticket> Tickets { get; set; }

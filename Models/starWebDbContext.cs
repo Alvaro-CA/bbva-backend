@@ -46,6 +46,8 @@ namespace bbva_backend.Models
                     .HasColumnType("decimal(18, 0)")
                     .HasColumnName("aforo");
 
+                entity.Property(e => e.AforoCajero).HasColumnName("aforoCajero");
+
                 entity.Property(e => e.Altitud)
                     .HasColumnType("decimal(18, 0)")
                     .HasColumnName("altitud");
@@ -53,6 +55,8 @@ namespace bbva_backend.Models
                 entity.Property(e => e.CapacidadActual)
                     .HasColumnType("decimal(18, 0)")
                     .HasColumnName("capacidadActual");
+
+                entity.Property(e => e.CapacidadCajeroActual).HasColumnName("capacidadCajeroActual");
 
                 entity.Property(e => e.Direccion)
                     .HasMaxLength(500)
@@ -98,7 +102,7 @@ namespace bbva_backend.Models
                     .WithMany(p => p.Agencia)
                     .HasForeignKey(d => d.IdRegion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Agencia__idRegio__778AC167");
+                    .HasConstraintName("FK__Agencia__idRegio__01142BA1");
             });
 
             modelBuilder.Entity<Cliente>(entity =>
