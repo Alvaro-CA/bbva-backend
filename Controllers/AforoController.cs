@@ -41,5 +41,37 @@ namespace bbva_backend.Controllers
             }
             dbContext.SaveChanges();
         }
+
+        void updateAleatoryDataCajero()
+        {
+            starWebDbContext dbContext = new starWebDbContext();
+
+            foreach (var agencia in dbContext.Agencia.Where((agencia) => agencia.IdAgencia < 142 || agencia.IdAgencia > 146))
+            {
+                Random rd = new Random();
+                agencia.CapacidadCajeroActual = rd.Next(0, Convert.ToInt32(agencia.Aforo));
+            }
+            dbContext.SaveChanges();
+        }
+
+        [HttpGet]
+        [Route("ActualizarAforoActualCajero")]
+        public IActionResult ActualizarAforoActualCajero(int idAgencia, int aforoActual)
+        {
+            starWebDbContext dbContext = new starWebDbContext();
+            var agencia = dbContext.Agencia.Where((agencia) => agencia.IdAgencia == idAgencia).FirstOrDefault();
+
+            if (agencia != null)
+            {
+                agencia.CapacidadCajeroActual = aforoActual;
+               // dbContext.SaveChanges();
+                updateAleatoryDataCajero();
+                return Ok("Actualizado Correctamente");
+            }
+
+            return BadRequest("No Se encuentra el ID");
+
+        }
+
     }
 }
