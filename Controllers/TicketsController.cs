@@ -34,7 +34,15 @@ namespace bbva_backend.Controllers
 
             });
             db.SaveChanges();
-
+          var agencia = db.Agencia.Where(x => x.IdAgencia == idAgencia).FirstOrDefault();
+            if (agencia != null)
+            { 
+                if(agencia.CapacidadActual > 0 ){
+                  agencia.CapacidadActual = agencia.CapacidadActual+1;
+                 db.SaveChanges();
+                }
+           
+            }
             string mensaje = "";
 
             return Ok(mensaje);
